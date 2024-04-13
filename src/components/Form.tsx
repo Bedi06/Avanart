@@ -29,23 +29,36 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     e.preventDefault();
 
     // Generate image
-    const canvas = document.createElement("canvas");
-    canvas.width = 400;
-    canvas.height = 200;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#000000";
-      ctx.font = "20px Arial";
-      ctx.fillText(`Name: ${formData.name}`, 10, 30);
-      ctx.fillText(`Region: ${formData.region}`, 10, 60);
-      ctx.fillText(`Role: ${formData.role}`, 10, 90);
-      const dataUrl = canvas.toDataURL("image/png");
-      setImageDataUrl(dataUrl);
-      onSubmit(formData, dataUrl); // Call the onSubmit callback with form data and image data URL
-    }
+    // const canvas = document.createElement("canvas");
+    // canvas.width = 400;
+    // canvas.height = 200;
+    // const ctx = canvas.getContext("2d");
+    // if (ctx) {
+    //   ctx.fillStyle = "#ffffff";
+    //   ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //   ctx.fillStyle = "#000000";
+    //   ctx.font = "20px Arial";
+    //   ctx.fillText(`Name: ${formData.name}`, 10, 30);
+    //   ctx.fillText(`Region: ${formData.region}`, 10, 60);
+    //   ctx.fillText(`Role: ${formData.role}`, 10, 90);
+      // const dataUrl = canvas.toDataURL("image/png");
+
+
+
+
+      // const input = 'example';
+      const img = document.createElement('img');
+      const url = `https://robohash.org/${formData.name}?size=200x200`;
+      fetch(url)
+        .then(response => response.blob())
+        .then(blob => {
+          const dataURL = URL.createObjectURL(blob);
+          document.body.appendChild(img);
+          setImageDataUrl(dataURL);
+          onSubmit(formData, dataURL);
+        });
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -65,6 +78,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                   value={formData.name}
                   onChange={handleChange}
                 />
+                
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -104,6 +118,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       </Grid>
     </form>
   );
-};
+  };
 
 export default Form;
