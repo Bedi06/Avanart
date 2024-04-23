@@ -7,7 +7,10 @@ import Footer from "./components/Footer";
 
 const App: React.FC = () => {
   const [formData, setFormData] = useState<any>(null);
-  const [generatedImageDataUrl, setGeneratedImageDataUrl] = useState<
+  const [selectedRole, setSelectedRole] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("")
+  const [generatedImageDataUrl, setGeneratedImageDataUrl] = useState
+  <
     string | null
   >(null);
 
@@ -22,11 +25,11 @@ const App: React.FC = () => {
       <div style={{ padding: "20px" }}>
         <Grid container spacing={2} sx={{ m: "2em" }}>
           <Grid item xs={6}>
-            <Form onSubmit={handleSubmit} />
+            <Form onSubmit={handleSubmit} selectedRole={selectedRole} setSelectedRole={setSelectedRole} />
           </Grid>
           <Grid item xs={6}>
             {generatedImageDataUrl && (
-              <ImageGenerator generatedImageDataUrl={generatedImageDataUrl} />
+              <ImageGenerator generatedImageDataUrl={generatedImageDataUrl} selectedRole={selectedRole}/>
             )}
           </Grid>
         </Grid>
