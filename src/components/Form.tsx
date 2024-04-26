@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { TextField, Button, Grid, Card } from "@mui/material";
+import { TextField, Button, Grid, Card, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
+  selectedRole: string; // Define selectedRole prop
+  setSelectedRole: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface FormData {
@@ -11,40 +13,46 @@ interface FormData {
   role: string;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
+const Form: React.FC<FormProps> = ({ onSubmit, selectedRole, setSelectedRole }) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     region: "",
     role: "",
-  });
+  })
 
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
+   
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleRegionChange = (e: SelectChangeEvent<string>) => {
+    const value = e.target.value;
+    setFormData({ ...formData, region: value });
+  };
+
+  const handleRoleChange = (e: SelectChangeEvent<string>) => {
+    const value = e.target.value;
+     setSelectedRole(value);
+    setFormData({ ...formData, role: value });
+  };
+  
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Generate image
-    const canvas = document.createElement("canvas");
-    canvas.width = 400;
-    canvas.height = 200;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#000000";
-      ctx.font = "20px Arial";
-      ctx.fillText(`Name: ${formData.name}`, 10, 30);
-      ctx.fillText(`Region: ${formData.region}`, 10, 60);
-      ctx.fillText(`Role: ${formData.role}`, 10, 90);
-      const dataUrl = canvas.toDataURL("image/png");
-      setImageDataUrl(dataUrl);
-      onSubmit(formData, dataUrl); // Call the onSubmit callback with form data and image data URL
-    }
+    const img = document.createElement('img');
+    const url = `https://robohash.org/${formData.name}?size=200x200`;
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const dataURL = URL.createObjectURL(blob);
+        document.body.appendChild(img);
+        setImageDataUrl(dataURL);
+        onSubmit(formData, dataURL);
+      });
   };
 
   return (
@@ -67,26 +75,33 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <Select
                   sx={{ m: 1, width: "25ch" }}
                   id="region"
                   name="region"
                   label="Region"
                   variant="outlined"
                   value={formData.region}
-                  onChange={handleChange}
-                />
+                  onChange={handleRegionChange}
+                >
+                  <MenuItem value="London">London</MenuItem>
+                  <MenuItem value="Birmingham">Birmingham</MenuItem>
+                  <MenuItem value="Glasgow">Glasgow</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <Select
                   sx={{ m: 1, width: "25ch" }}
                   id="role"
                   name="role"
                   label="Role"
                   variant="outlined"
                   value={formData.role}
-                  onChange={handleChange}
-                />
+                  onChange={handleRoleChange}
+                >
+                  <MenuItem value="volunteer">Volunteer</MenuItem>
+                  <MenuItem value="trainee">Trainee</MenuItem>
+                </Select>
               </Grid>
               <Grid item xs={12}>
                 <Button
