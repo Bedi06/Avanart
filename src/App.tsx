@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <Header title="Avanart" />
+      <Header title="AVANART" />
       <div style={{ padding: "20px" }}>
         <Grid container spacing={2} sx={{ m: "2em" }}>
           <Grid item xs={6}>
