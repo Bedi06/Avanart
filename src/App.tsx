@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import ImageGenerator from "./components/ImageGenerator";
 import Header from "./components/Header";
@@ -16,10 +16,21 @@ const App: React.FC = () => {
     setGeneratedImageDataUrl(imageDataUrl);
   };
 
+  const [testServer, setTestServer] = useState<any>("");
+  useEffect(() => {
+    fetch("http://localhost:5000/").then((response) =>
+      response.json().then((data) => {
+        setTestServer(data);
+        console.log(data);
+      })
+    );
+  }, []);
+
   return (
     <div>
       <Header title="Avanart" />
       <div style={{ padding: "20px" }}>
+        <h1>{testServer}</h1>
         <Grid container spacing={2} sx={{ m: "2em" }}>
           <Grid item xs={6}>
             <Form onSubmit={handleSubmit} />
