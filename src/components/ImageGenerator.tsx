@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Card, CardActions, CardContent } from "@mui/material";
+import domtoimage from "dom-to-image-more";
+import { saveAs } from "file-saver";
 
 interface ImageGeneratorProps {
   generatedImageDataUrl: string | null; // Change prop name to generatedImageDataUrl
@@ -8,26 +10,45 @@ interface ImageGeneratorProps {
 const ImageGenerator: React.FC<ImageGeneratorProps> = ({
   generatedImageDataUrl,
 }) => {
-  // Use generatedImageDataUrl prop
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (generatedImageDataUrl) {
-      const downloadLink = document.createElement("a");
-      downloadLink.href = generatedImageDataUrl;
-      downloadLink.download = "generated_image.png";
-      downloadLink.click();
+      const node = document.getElementById("avatar-img-container");
+      try {
+        const blob = await domtoimage.toBlob(node);
+        saveAs(blob, "my-node.png"); // using saveAs directly
+      } catch (error) {
+        console.error("Oops, something went wrong!", error);
+      }
     }
   };
-
   return (
     <Card sx={{ width: "100%", maxWidth: 400, height: 300, padding: "2em" }}>
-      <CardContent>
+      <CardContent style={{ position: "relative" }}>
         {generatedImageDataUrl && (
           <>
-            <img
-              src={generatedImageDataUrl}
-              alt="Generated"
-              style={{ maxWidth: "100%", height: "auto", marginBottom: "8px" }}
-            />
+            <div id="avatar-img-container">
+              <p
+                style={{
+                  position: "absolute",
+                  width: "100%",
+                  zIndex: 9,
+                  color: "black",
+                  padding: "5px",
+                }}
+              >
+                test
+              </p>
+              <img
+                src={generatedImageDataUrl}
+                alt="Generated"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  marginBottom: "8px",
+                }}
+              />
+            </div>
+
             <CardActions>
               <Button onClick={handleDownload}>Download Image</Button>
             </CardActions>
