@@ -22,35 +22,45 @@ import ReactNiceAvatar, { genConfig } from "./components/config/index";
 //     setGeneratedImageDataUrl(imageDataUrl);
 //   };
 
-class App extends Component {
-  constructor(props) {
+interface AppState {
+  config: { [key: string]: any };
+  shape: AvatarShape;
+  avatarId: string;
+}
+
+type AvatarShape = "circle" | "rounded" | "square";
+
+class App extends Component<{}, AppState> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       config: genConfig({
         isGradient: Boolean(Math.round(Math.random())),
       }),
       shape: "circle",
+      avatarId: "myAvatar", // Declare avatarId here
     };
-    this.avatarId = "myAvatar";
   }
 
-  selectConfig(config) {
+  selectConfig(config: { [key: string]: any }) {
     this.setState({ config });
   }
 
-  updateConfig(key, value) {
+  updateConfig(key: string, value: any) {
+    // Specify type for value
     const { config } = this.state;
     config[key] = value;
     this.setState({ config });
   }
 
-  updateShape(shape) {
+  updateShape(shape: AvatarShape) {
+    // Specify type for shape
     this.setState({ shape });
   }
 
   async download() {
     const scale = 2;
-    const node = document.getElementById(this.avatarId);
+    const node = document.getElementById(this.state.avatarId);
     if (node) {
       const blob = await domtoimage.toBlob(node, {
         height: node.offsetHeight * scale,
@@ -67,9 +77,9 @@ class App extends Component {
     }
   }
 
-  onInputKeyUp(e) {
+  onInputKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     this.setState({
-      config: genConfig(e.target.value),
+      config: genConfig(e.currentTarget.value),
     });
   }
 
@@ -78,11 +88,11 @@ class App extends Component {
     return (
       <div className="App flex flex-col min-h-screen">
         <main className="flex-1 flex flex-col items-center justify-center">
-          <div id={this.avatarId} className="mb-10">
+          <div id={this.state.avatarId} className="mb-10">
             <ReactNiceAvatar
               className="w-64 h-64 highres:w-80 highres:h-80"
               hairColorRandom
-              shape={shape}
+              shape={this.state.shape}
               {...config}
             />
           </div>
@@ -96,7 +106,9 @@ class App extends Component {
           <input
             className="inputField w-64 h-10 p-2 rounded-full mt-10 text-center outline-none"
             placeholder="input name or email ..."
-            onKeyUp={this.onInputKeyUp.bind(this)}
+            onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) =>
+              this.onInputKeyUp(e)
+            }
           />
         </main>
 
