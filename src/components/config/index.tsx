@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import type { NiceAvatarProps } from "./types"
+import type { NiceAvatarProps } from "./types";
 
 import { genConfig, defaultOptions } from "./utils";
 
@@ -27,7 +27,9 @@ export default class ReactNiceAvatar extends Component<NiceAvatarProps> {
     earSize: PropTypes.oneOf(defaultOptions.earSize),
     hairColor: PropTypes.string,
     hairStyle: PropTypes.oneOf(
-      (defaultOptions.hairStyleMan as string[]).concat(defaultOptions.hairStyleWoman as string[])
+      (defaultOptions.hairStyleMan as string[]).concat(
+        defaultOptions.hairStyleWoman as string[]
+      )
     ),
     hatColor: PropTypes.string,
     hatStyle: PropTypes.oneOf(defaultOptions.hatStyle),
@@ -39,11 +41,17 @@ export default class ReactNiceAvatar extends Component<NiceAvatarProps> {
     shirtStyle: PropTypes.oneOf(defaultOptions.shirtStyle),
     shirtColor: PropTypes.string,
     bgColor: PropTypes.string,
-    isGradient: PropTypes.bool
-  }
+    isGradient: PropTypes.bool,
+  };
 
   render() {
-    const { id, className, style, shape = "circle", hairColorRandom = false } = this.props;
+    const {
+      id,
+      className,
+      style,
+      shape = "circle",
+      hairColorRandom = false,
+    } = this.props;
     const config = genConfig(this.props);
 
     // Background shape
@@ -62,7 +70,7 @@ export default class ReactNiceAvatar extends Component<NiceAvatarProps> {
         break;
       }
     }
-    
+
     return (
       <div
         id={id}
@@ -71,31 +79,33 @@ export default class ReactNiceAvatar extends Component<NiceAvatarProps> {
           background: config.bgColor,
           overflow: "hidden",
           borderRadius,
-          ...style
-        }}>
+          ...style,
+        }}
+      >
         <div
           style={{
             position: "relative",
             width: "100%",
-            height: "100%"
-          }}>
+            height: "100%",
+          }}
+        >
           <div
             style={{
               position: "absolute",
               bottom: 0,
               width: "100%",
-              height: "90%"
-            }}>
+              height: "90%",
+            }}
+          >
             <Face color={config.faceColor} />
-            <Hat
-              color={config.hatColor}
-              style={config.hatStyle} />
-            {config.hatStyle === "none" &&
+            <Hat color={config.hatColor} style={config.hatStyle} />
+            {config.hatStyle === "none" && (
               <Hair
                 color={config.hairColor}
                 style={config.hairStyle}
-                colorRandom={hairColorRandom} />
-            }
+                colorRandom={hairColorRandom}
+              />
+            )}
 
             {/* Face detail */}
             <div
@@ -108,8 +118,9 @@ export default class ReactNiceAvatar extends Component<NiceAvatarProps> {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center"
-              }}>
+                justifyContent: "center",
+              }}
+            >
               <Eyebrow style={config.eyeBrowStyle} />
               <Eye style={config.eyeStyle} />
               <Glasses style={config.glassesStyle} />
