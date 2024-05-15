@@ -1,17 +1,14 @@
-@import "~shared-style/mixin";
+@import "../../index.scss";
+@import "../../index.scss";
 
 $avatarWidth: 4.5rem;
-$laptopWidth: $avatarWidth - 0.8rem;
+$laptopWidth: 4.5rem - 0.8rem;
 $displayCount: 10;
 $sectionWidth: $avatarWidth * $displayCount;
 
-@mixin test($value) {
-  transform: translateX(#{$value}px);
-}
-
 .AvatarList {
   width: $laptopWidth * $displayCount;
-  @include breakpoint(highres) {
+  @media (min-width: 1200px) {
     width: $avatarWidth * $displayCount;
   }
   .listWrapper {
@@ -21,7 +18,7 @@ $sectionWidth: $avatarWidth * $displayCount;
   .AvatarItemWrapper {
     flex: 0 0 $laptopWidth;
     height: $laptopWidth;
-    @include breakpoint(highres) {
+    @media (min-width: 1200px) {
       flex: 0 0 $avatarWidth;
       height: $avatarWidth;
     }
@@ -38,7 +35,7 @@ $sectionWidth: $avatarWidth * $displayCount;
       $avatarInnerWidth: $avatarWidth - 1.5rem;
       width: $avatarLaptopInnerWidth;
       height: $avatarLaptopInnerWidth;
-      @include breakpoint(highres) {
+      @media (min-width: 1200px) {
         width: $avatarInnerWidth;
         height: $avatarInnerWidth;
       }

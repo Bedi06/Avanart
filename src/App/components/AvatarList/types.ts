@@ -1,4 +1,4 @@
-import { AvatarFullConfig } from "../../types";
+import { AvatarFullConfig } from "../../config/types";
 
 export interface AvatarListItem extends AvatarFullConfig {
   id: string;

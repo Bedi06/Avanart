@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 // import ImageGenerator from "./components/ImageGenerator";
 // import Header from "./components/Header";
 // import Form from "./components/Form";
@@ -9,7 +9,8 @@ import AvatarEditor from "./components/AvatarEditor";
 import Footer from "./components/Footer";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
-import ReactNiceAvatar, { genConfig } from "./components/config/index";
+import ReactNiceAvatar, { genConfig } from "./config/index";
+import "./index.scss";
 
 // const App: React.FC = () => {
 //   const [formData, setFormData] = useState<any>(null);

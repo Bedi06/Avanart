@@ -1,11 +1,11 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
-
-import type { AvatarFullConfig } from "../../types";
+import type { AvatarFullConfig } from "../../config/types";
 import type { AvatarListItem } from "./types";
 
 import ReactNiceAvatar, { genConfig } from "react-nice-avatar";
+import "./index.scss";
 
 interface AvatarListProps {
   selectConfig: (item: AvatarFullConfig) => void;

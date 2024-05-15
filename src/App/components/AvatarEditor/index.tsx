@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-
-import { defaultOptions } from "../config/utils";
-import Face from "../config/face";
-import Hair from "../config/hair";
-import Hat from "../config/hat";
-import Eyes from "../config/eyes";
-import Glasses from "../config/glasses";
-import Ear from "../config/ear";
-import Nose from "../config/nose";
-import Mouth from "../config/mouth";
-import Shirt from "../config/shirt";
-
-import SectionWrapper from "./SectionWrapper/index";
+import { defaultOptions } from "../../config/utils";
+import Face from "../../config/face/index";
+import Hair from "../../config/hair/index";
+import Hat from "../../config/hat/index";
+import Eyes from "../../config/eyes/index";
+import Glasses from "../../config/glasses";
+import Ear from "../../config/ear/index";
+import Nose from "../../config/nose/index";
+import Mouth from "../../config/mouth/index";
+import Shirt from "../../config/shirt/index";
+import SectionWrapper from "./SectionWrapper";
 
 import "./index.scss";
 
@@ -79,7 +77,6 @@ export default class AvatarEditor extends Component {
       "<NiceAvatar style={{ width: '5rem', height: '5rem' }} {...myConfig} />"
     );
   }
-
   render() {
     const { config, shape, download } = this.props;
     const { isCodeShow } = this.state;
