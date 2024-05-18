@@ -4,7 +4,10 @@ import Long from "./long";
 import Short from "./short";
 import Round from "./round";
 
-export default function nose(props: { style: string }): JSX.Element {
+export default function nose(props: {
+  style: string;
+  color?: string;
+}): JSX.Element {
   const { style } = props;
   switch (style) {
     case "long":

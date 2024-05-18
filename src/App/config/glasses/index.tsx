@@ -3,7 +3,10 @@ import React from "react";
 import Round from "./round";
 import Square from "./square";
 
-export default function glasses(props: { style: string }): JSX.Element | null {
+export default function glasses(props: {
+  style: string;
+  color?: string;
+}): JSX.Element | null {
   const { style } = props;
   switch (style) {
     case "round":

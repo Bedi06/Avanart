@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { defaultOptions } from "../../config/utils";
+
 import Face from "../../config/face/index";
 import Hair from "../../config/hair/index";
 import Hat from "../../config/hat/index";
@@ -14,6 +15,13 @@ import Shirt from "../../config/shirt/index";
 import SectionWrapper from "./SectionWrapper";
 
 import "./index.scss";
+interface AvatarEditorProps {
+  config: object; // You can specify more specific type here if known
+  shape: string;
+  updateShape: Function;
+  download: Function;
+  color: string;
+}
 
 export default class AvatarEditor extends Component {
   static propTypes = {
@@ -23,8 +31,10 @@ export default class AvatarEditor extends Component {
     updateShape: PropTypes.func.isRequired,
     download: PropTypes.func.isRequired,
   };
+  myDefaultOptions: any;
+  shapes: string[];
 
-  constructor(props) {
+  constructor(props: AvatarEditorProps) {
     super(props);
     this.state = {
       isCodeShow: false,
@@ -32,9 +42,8 @@ export default class AvatarEditor extends Component {
     this.myDefaultOptions = this.genDefaultOptions(defaultOptions);
     this.shapes = ["circle", "rounded", "square"];
   }
-
   // Modification on defaultOptions for convenient
-  genDefaultOptions(opts) {
+  genDefaultOptions(opts: any) {
     const hairSet = new Set(opts.hairStyleMan.concat(opts.hairStyleWoman));
     return {
       ...opts,
@@ -42,29 +51,29 @@ export default class AvatarEditor extends Component {
     };
   }
 
-  switchConfig(type, currentOpt) {
-    const { updateConfig } = this.props;
+  switchConfig(type: string, currentOpt: string) {
+    const { updateConfig } = this.props as any;
     const opts = this.myDefaultOptions[type];
-    const currentIdx = opts.findIndex((item) => item === currentOpt);
+    const currentIdx = opts.findIndex((item: string) => item === currentOpt);
     const newIdx = (currentIdx + 1) % opts.length;
     updateConfig(type, opts[newIdx]);
   }
 
-  switchShape(currentShape) {
-    const { updateShape } = this.props;
+  switchShape(currentShape: string) {
+    const { updateShape } = this.props as any;
     const currentIdx = this.shapes.findIndex((item) => item === currentShape);
     const newIdx = (currentIdx + 1) % this.shapes.length;
     updateShape(this.shapes[newIdx]);
   }
 
   toggleCodeShow() {
-    const { isCodeShow } = this.state;
+    const { isCodeShow } = this.state as any;
     this.setState({
       isCodeShow: !isCodeShow,
     });
   }
 
-  genCodeString(config) {
+  genCodeString(config: { [x: string]: any }) {
     const ignoreAttr = ["id"];
     const myConfig = Object.keys(config)
       .filter((key) => !ignoreAttr.includes(key))
@@ -77,9 +86,10 @@ export default class AvatarEditor extends Component {
       "<NiceAvatar style={{ width: '5rem', height: '5rem' }} {...myConfig} />"
     );
   }
+
   render() {
-    const { config, shape, download } = this.props;
-    const { isCodeShow } = this.state;
+    const { config, shape, download } = this.props as any;
+    const { isCodeShow } = this.state as any;
     return (
       <div className="AvatarEditor rounded-full px-3 py-2 flex items-center">
         {/* Face */}

@@ -12,17 +12,6 @@ import { saveAs } from "file-saver";
 import ReactNiceAvatar, { genConfig } from "./config/index";
 import "./index.scss";
 
-// const App: React.FC = () => {
-//   const [formData, setFormData] = useState<any>(null);
-//   const [generatedImageDataUrl, setGeneratedImageDataUrl] = useState<
-//     string | null
-//   >(null);
-
-//   const handleSubmit = (data: any, imageDataUrl: string) => {
-//     setFormData(data);
-//     setGeneratedImageDataUrl(imageDataUrl);
-//   };
-
 interface AppState {
   config: { [key: string]: any };
   shape: AvatarShape;
