@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-// import ImageGenerator from "./components/ImageGenerator";
-// import Header from "./components/Header";
-// import Form from "./components/Form";
-// import { Grid } from "@mui/material";
-// import Avatar, { genConfig } from "react-nice-avatar";
 import AvatarList from "./components/AvatarList";
 import AvatarEditor from "./components/AvatarEditor";
 import Footer from "./components/Footer";
