@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import AvatarList from "./components/AvatarList";
-import AvatarEditor from "./components/AvatarEditor";
+import AvatarList from "./components/AvatarList/index";
+import AvatarEditor from "./components/AvatarEditor/index";
 import Footer from "./components/Footer";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
@@ -97,11 +97,9 @@ class App extends Component<{}, AppState> {
           />
         </main>
 
-        {/* Avatar list */}
         <AvatarList selectConfig={this.selectConfig.bind(this)} />
 
-        {/* Footer */}
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

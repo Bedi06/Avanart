@@ -26,15 +26,18 @@ export default class AvatarList extends Component<
   };
 
   listId = "avatarList"; // ID of the avatar list container
+  displayCount: number;
+  listWidth: number;
 
-  constructor(props: AvatarListProps) {
+  constructor(props: { selectConfig: (item: AvatarFullConfig) => void }) {
     super(props);
-    // Initialize state with current index and an empty array for avatar configurations
-
+    this.displayCount = 10;
     this.state = {
       current: 0,
-      avatarConfigList: [], // Initialize avatarConfigList with an empty array
+      avatarConfigList: this.genConfigList(this.displayCount),
     };
+    this.listId = "avatarList";
+    this.listWidth = 0;
   }
 
   componentDidMount() {
