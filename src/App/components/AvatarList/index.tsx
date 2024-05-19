@@ -94,7 +94,7 @@ export default class AvatarList extends Component<
     const displayMin = (current - 1) * 10; // Calculate minimum index for displayed avatars
 
     return (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center mb-20">
         {/* Arrow left */}
         {current !== 0 && (
           <i

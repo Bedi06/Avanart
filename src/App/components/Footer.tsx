@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         position: "fixed",
         bottom: 0,
         width: "100%",
-        bgcolor: "#bfbcb8",
+        bgcolor: "black",
         textAlign: "center",
         padding: "10px",
       }}

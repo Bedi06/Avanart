@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "#424141", color: "#bfbcb8" }}
+      sx={{ backgroundColor: "Black", color: "#bfbcb8" }}
     >
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

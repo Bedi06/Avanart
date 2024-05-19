@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
 import ReactNiceAvatar, { genConfig } from "./config/index";
+import Header from "./components/Header";
 import "./index.scss";
 
 interface AppState {
@@ -72,6 +73,7 @@ class App extends Component<{}, AppState> {
     const { config, shape } = this.state;
     return (
       <div className="App flex flex-col min-h-screen">
+        <Header title="Avatar Generator" />
         <main className="flex-1 flex flex-col items-center justify-center">
           <div id={this.state.avatarId} className="mb-10">
             <ReactNiceAvatar
@@ -99,7 +101,7 @@ class App extends Component<{}, AppState> {
 
         <AvatarList selectConfig={this.selectConfig.bind(this)} />
 
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }
