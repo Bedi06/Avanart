@@ -8,6 +8,8 @@ import ReactNiceAvatar, { genConfig } from "./config/index";
 import Header from "./components/Header";
 import "./index.scss";
 
+import Arrow from "./components/Arrow";
+
 interface AppState {
   config: { [key: string]: any };
   shape: AvatarShape;
@@ -72,7 +74,7 @@ class App extends Component<{}, AppState> {
   render() {
     const { config, shape } = this.state;
     return (
-      <div className="App flex flex-col min-h-screen">
+      <div className="App flex flex-col min-h-screen overflow-x-hidden">
         <Header title="Avatar Generator" />
         <main className="flex-1 flex flex-col items-center justify-center">
           <div id={this.state.avatarId} className="mb-10">
@@ -100,6 +102,9 @@ class App extends Component<{}, AppState> {
         </main>
 
         <AvatarList selectConfig={this.selectConfig.bind(this)} />
+        <div className="absolute top-2/3 right-0">
+          <Arrow fillColor="red" />
+        </div>
 
         <Footer />
       </div>
