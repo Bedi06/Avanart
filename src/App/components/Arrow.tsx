@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom"; // Assuming you're using React Router for navigation
+import { useNavigate } from "react-router-dom"; // Assuming you're using React Router for navigation
 
 type ArrowProps = {
   width?: number;
@@ -11,10 +11,10 @@ const Arrow = ({
   height = 50,
   fillColor = "black",
 }: ArrowProps) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleClick = () => {
     // Redirect to another page when arrow is clicked
-    history.push("/another-page");
+    navigate("/form");
   };
   return (
     <a href="/another-page" onClick={handleClick}>
