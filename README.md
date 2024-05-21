@@ -1,6 +1,6 @@
 # Avanart
 
-A website to generate avatars for people who can use their original pictures
+A website to generate avatars for people who cannot use their original pictures
 
 # Getting Started with Create React App
 
@@ -49,6 +49,3 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# Avanart
-
-A website to generate avatars for people who can use their original pictures
