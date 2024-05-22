@@ -28,6 +28,7 @@ const ImageGenerator: React.FC<ImageGeneratorProps> = ({
               alt="Generated"
               style={{ maxWidth: "100%", height: "auto", marginBottom: "8px" }}
             />
+            <p style={{ position: "absolute", bottom: "5px", left: "70px", zIndex: 1, color: "black", padding: "5px" }}>{selectedRegion}</p>
             <CardActions>
               <Button onClick={handleDownload}>Download Image</Button>
             </CardActions>

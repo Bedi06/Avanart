@@ -14,8 +14,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+<<<<<<< Updated upstream
     "jsx": "react-jsx",
     "types": ["react", "react-dom", "react-router-dom"]
+=======
+    "jsx": "preserve"
+>>>>>>> Stashed changes
   },
   "include": ["src", "tailwind.config.js"]
 }

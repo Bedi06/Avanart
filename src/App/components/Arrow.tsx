@@ -1,23 +1,29 @@
-import { useNavigate } from "react-router-dom"; // Assuming you're using React Router for navigation
+import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 type ArrowProps = {
   width?: number;
   height?: number;
   fillColor?: string;
+  onCaptureAvatar: () => void; // Add a new prop for capturing avatar image
 };
 
 const Arrow = ({
   width = 100,
   height = 50,
   fillColor = "black",
+  onCaptureAvatar,
 }: ArrowProps) => {
   const navigate = useNavigate();
-  const handleClick = () => {
-    // Redirect to another page when arrow is clicked
+
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    onCaptureAvatar(); // Capture the avatar image
     navigate("/form");
   };
+
   return (
-    <a href="/another-page" onClick={handleClick}>
+    <a href="/form" onClick={handleClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 25 25"

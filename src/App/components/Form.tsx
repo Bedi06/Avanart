@@ -3,6 +3,7 @@ import { TextField, Button, Grid, Card } from "@mui/material";
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
+  avatarImageDataUrl: string | null; // Add this prop
 }
 
 interface FormData {
@@ -11,14 +12,12 @@ interface FormData {
   role: string;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
+const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     region: "",
     role: "",
   });
-
-  const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,68 +41,53 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       ctx.fillText(`Region: ${formData.region}`, 10, 60);
       ctx.fillText(`Role: ${formData.role}`, 10, 90);
       const dataUrl = canvas.toDataURL("image/png");
-      setImageDataUrl(dataUrl);
-      onSubmit(formData, dataUrl); // Call the onSubmit callback with form data and image data URL
+      onSubmit(formData, dataUrl);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Card
-            sx={{ width: "100%", maxWidth: 400, height: 300, padding: "2em" }}
-          >
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <form onSubmit={handleSubmit}>
+          <Card sx={{ width: "100%", maxWidth: "100%", height: 500, padding: "2em" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
-                  sx={{ m: 1, width: "25ch" }}
-                  id="name"
-                  name="name"
-                  label="Name"
-                  variant="outlined"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  sx={{ m: 1, width: "25ch" }}
-                  id="region"
-                  name="region"
-                  label="Region"
-                  variant="outlined"
-                  value={formData.region}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  sx={{ m: 1, width: "25ch" }}
-                  id="role"
-                  name="role"
-                  label="Role"
-                  variant="outlined"
-                  value={formData.role}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{ mr: 1 }}
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </Card>
-        </Grid>
-      </Grid>
-    </form>
-  );
+              <TextField
+  sx={{ m: 1, width: "25ch" }}
+  id="region"
+  name="region"
+  label="Region"
+  variant="outlined"
+  value={formData.region}
+  onChange={handleChange}
+/>
+</Grid>
+<Grid item xs={12}>
+<TextField
+  sx={{ m: 1, width: "25ch" }}
+  id="role"
+  name="role"
+  label="Role"
+  variant="outlined"
+  value={formData.role}
+  onChange={handleChange}
+/>
+</Grid>
+<Grid item xs={12}>
+<Button
+  type="submit"
+  variant="contained"
+  color="primary"
+  sx={{ mr: 1 }}
+>
+  Submit
+</Button>
+</Grid>
+</Grid>
+</Card>
+</form>
+</Grid>
+</Grid>
+);
 };
-
 export default Form;
