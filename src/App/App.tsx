@@ -142,9 +142,6 @@ class App extends Component<{}, AppState> {
                         {...config}
                       />
                     </div>
-                    {/* {avatarImageDataUrl && (
-                    <img src={avatarImageDataUrl} alt="Avatar" className="mb-4" />
-                  )} */}
                     <AvatarEditor
                       config={config}
                       shape={shape}
