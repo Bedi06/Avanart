@@ -16,9 +16,9 @@ const Arrow = ({
 }: ArrowProps) => {
   const navigate = useNavigate();
 
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleClick = async (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
-    onCaptureAvatar(); // Capture the avatar image
+    await onCaptureAvatar(); // Capture the avatar image
     navigate("/form");
   };
 

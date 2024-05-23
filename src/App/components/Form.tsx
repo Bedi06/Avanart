@@ -3,7 +3,7 @@ import { TextField, Button, Grid, Card } from "@mui/material";
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
-  avatarImageDataUrl: string | null; // Add this prop
+  avatarImageDataUrl: string | null;
 }
 
 interface FormData {
@@ -18,6 +18,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
     region: "",
     role: "",
   });
+  const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,24 +27,36 @@ const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("clicked")
+    console.log(avatarImageDataUrl)
+    if (avatarImageDataUrl) {
+      
+      fetch(avatarImageDataUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const dataURL = URL.createObjectURL(blob);
+          setImageDataUrl(dataURL);
 
-    // Generate image
-    const canvas = document.createElement("canvas");
-    canvas.width = 400;
-    canvas.height = 200;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#000000";
-      ctx.font = "20px Arial";
-      ctx.fillText(`Name: ${formData.name}`, 10, 30);
-      ctx.fillText(`Region: ${formData.region}`, 10, 60);
-      ctx.fillText(`Role: ${formData.role}`, 10, 90);
-      const dataUrl = canvas.toDataURL("image/png");
-      onSubmit(formData, dataUrl);
+          // Display the image in the <div> with the id "picture"
+          const pictureDiv = document.getElementById("picture");
+          if (pictureDiv) {
+            // Clear previous content in the pictureDiv
+            pictureDiv.innerHTML = "";
+            // Create an img element
+            const img = document.createElement("img");
+            // Set the src attribute to the blob URL
+            img.src = dataURL;
+            // Append the img element to the pictureDiv
+            pictureDiv.appendChild(img);
+          }
+          
+          onSubmit(formData, dataURL);
+        });
+    } else {
+      console.error("No avatar image URL provided.");
     }
-  };
+};
+
 
   return (
     <Grid container spacing={2}>
@@ -52,42 +65,61 @@ const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
           <Card sx={{ width: "100%", maxWidth: "100%", height: 500, padding: "2em" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-              <TextField
-  sx={{ m: 1, width: "25ch" }}
-  id="region"
-  name="region"
-  label="Region"
-  variant="outlined"
-  value={formData.region}
-  onChange={handleChange}
-/>
-</Grid>
-<Grid item xs={12}>
-<TextField
-  sx={{ m: 1, width: "25ch" }}
-  id="role"
-  name="role"
-  label="Role"
-  variant="outlined"
-  value={formData.role}
-  onChange={handleChange}
-/>
-</Grid>
-<Grid item xs={12}>
-<Button
-  type="submit"
-  variant="contained"
-  color="primary"
-  sx={{ mr: 1 }}
->
-  Submit
-</Button>
-</Grid>
-</Grid>
-</Card>
-</form>
-</Grid>
-</Grid>
-);
+                <TextField
+                  sx={{ m: 1, width: "25ch" }}
+                  id="name"
+                  name="name"
+                  label="Name"
+                  variant="outlined"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  sx={{ m: 1, width: "25ch" }}
+                  id="region"
+                  name="region"
+                  label="Region"
+                  variant="outlined"
+                  value={formData.region}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  sx={{ m: 1, width: "25ch" }}
+                  id="role"
+                  name="role"
+                  label="Role"
+                  variant="outlined"
+                  value={formData.role}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  sx={{ mr: 1 }}
+                >
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
+          </Card>
+        </form>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Card sx={{ width: "100%", maxWidth: "100%", padding: "2em" }}>
+          <div id="picture">
+            {/* {imageDataUrl && <img src={imageDataUrl} alt="Avatar" />} */}
+          </div>
+        </Card>
+      </Grid>
+    </Grid>
+  );
 };
+
 export default Form;

@@ -49,10 +49,33 @@ class App extends Component<{}, AppState> {
     this.setState({ shape });
   }
 
+  // async download() {
+    
+  //   const scale = 2;
+  //   const node = document.getElementById(this.state.avatarId);
+  //   if (node) {
+  //     const blob = await domtoimage.toBlob(node, {
+  //       height: node.offsetHeight * scale,
+  //       style: {
+  //         transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${node.offsetHeight / 2 / scale}px)`,
+  //         "border-radius": 0,
+  //       },
+  //       width: node.offsetWidth * scale,
+  //     });
+  //     console.log(blob)
+  //     saveAs(blob, "avatar.png");
+  //   }
+  // }
   async download() {
     const scale = 2;
     const node = document.getElementById(this.state.avatarId);
-    if (node) {
+    
+    if (!node) {
+      console.error("Element with ID", this.state.avatarId, "not found in the DOM.");
+      return;
+    }
+    
+    try {
       const blob = await domtoimage.toBlob(node, {
         height: node.offsetHeight * scale,
         style: {
@@ -61,10 +84,18 @@ class App extends Component<{}, AppState> {
         },
         width: node.offsetWidth * scale,
       });
-
-      saveAs(blob, "avatar.png");
+  
+      if (blob) {
+       
+        saveAs(blob, "avatar.png");
+      } else {
+        console.error("Blob is null or undefined.");
+      }
+    } catch (error) {
+      console.error("Error generating image blob:", error);
     }
   }
+  
 
   onInputKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     this.setState({
@@ -75,9 +106,16 @@ class App extends Component<{}, AppState> {
   async captureAvatarImage() {
     const node = document.getElementById(this.state.avatarId);
     if (node) {
+      
       const dataUrl = await domtoimage.toPng(node);
-      this.setState({ avatarImageDataUrl: dataUrl });
-    }
+      console.log(dataUrl)
+      this.setState({ avatarImageDataUrl: dataUrl }, () => {
+        console.log("State updated:", this.state.avatarImageDataUrl);
+      });
+      
+    }else(
+      console.log("node is not exist")
+    )
   }
 
   handleFormSubmit(formData: { name: string; region: string; role: string }, imageDataUrl: string) {
@@ -104,6 +142,9 @@ class App extends Component<{}, AppState> {
                         {...config}
                       />
                     </div>
+                    {/* {avatarImageDataUrl && (
+                    <img src={avatarImageDataUrl} alt="Avatar" className="mb-4" />
+                  )} */}
                     <AvatarEditor
                       config={config}
                       shape={shape}
