@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router } from "react-router-dom"; // Import BrowserRouter
+
 import AvatarList from "./components/AvatarList/index";
 import AvatarEditor from "./components/AvatarEditor/index";
 import Footer from "./components/Footer";
@@ -74,40 +76,42 @@ class App extends Component<{}, AppState> {
   render() {
     const { config, shape } = this.state;
     return (
-      <div className="App flex flex-col min-h-screen overflow-x-hidden">
-        <Header title="Avatar Generator" />
-        <main className="flex-1 flex flex-col items-center justify-center">
-          <div id={this.state.avatarId} className="mb-10">
-            <ReactNiceAvatar
-              className="w-64 h-64 highres:w-80 highres:h-80"
-              hairColorRandom
-              shape={this.state.shape}
-              {...config}
+      <Router>
+        <div className="App flex flex-col min-h-screen overflow-x-hidden">
+          <Header title="Avatar Generator" />
+          <main className="flex-1 flex flex-col items-center justify-center">
+            <div id={this.state.avatarId} className="mb-10">
+              <ReactNiceAvatar
+                className="w-64 h-64 highres:w-80 highres:h-80"
+                hairColorRandom
+                shape={this.state.shape}
+                {...config}
+              />
+            </div>
+            <AvatarEditor
+              config={config}
+              shape={shape}
+              updateConfig={this.updateConfig.bind(this)}
+              updateShape={this.updateShape.bind(this)}
+              download={this.download.bind(this)}
             />
+            <input
+              className="inputField w-64 h-10 p-2 rounded-full mt-10 text-center outline-none"
+              placeholder="input name or email ..."
+              onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) =>
+                this.onInputKeyUp(e)
+              }
+            />
+          </main>
+
+          <AvatarList selectConfig={this.selectConfig.bind(this)} />
+          <div className="absolute top-2/3 right-0">
+            <Arrow fillColor="red" />
           </div>
-          <AvatarEditor
-            config={config}
-            shape={shape}
-            updateConfig={this.updateConfig.bind(this)}
-            updateShape={this.updateShape.bind(this)}
-            download={this.download.bind(this)}
-          />
-          <input
-            className="inputField w-64 h-10 p-2 rounded-full mt-10 text-center outline-none"
-            placeholder="input name or email ..."
-            onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) =>
-              this.onInputKeyUp(e)
-            }
-          />
-        </main>
 
-        <AvatarList selectConfig={this.selectConfig.bind(this)} />
-        <div className="absolute top-2/3 right-0">
-          <Arrow fillColor="red" />
+          <Footer />
         </div>
-
-        <Footer />
-      </div>
+      </Router>
     );
   }
 }
