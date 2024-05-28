@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import "./index.scss";
 import Form from "./components/Form";
 import Arrow from "./components/Arrow";
+import AboutUs from "./components/AboutUs";
 
 interface AppState {
   config: { [key: string]: any };
@@ -115,6 +116,7 @@ class App extends Component<{}, AppState> {
         <Header title="AVANART" />
         <main className="flex-1 flex flex-col items-center justify-center">
           <Routes>
+            <Route path="/about-us" element={<AboutUs />} />
             <Route
               path="/"
               element={
