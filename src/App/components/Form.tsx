@@ -3,6 +3,7 @@ import { TextField, Button, Grid, Card } from "@mui/material";
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
+  avatarImageDataUrl: string | null;
 }
 
 interface FormData {
@@ -11,13 +12,12 @@ interface FormData {
   role: string;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
+const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     region: "",
     role: "",
   });
-
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,33 +27,42 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("clicked")
+    console.log(avatarImageDataUrl)
+    if (avatarImageDataUrl) {
+      
+      fetch(avatarImageDataUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const dataURL = URL.createObjectURL(blob);
+          setImageDataUrl(dataURL);
 
-    // Generate image
-    const canvas = document.createElement("canvas");
-    canvas.width = 400;
-    canvas.height = 200;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#000000";
-      ctx.font = "20px Arial";
-      ctx.fillText(`Name: ${formData.name}`, 10, 30);
-      ctx.fillText(`Region: ${formData.region}`, 10, 60);
-      ctx.fillText(`Role: ${formData.role}`, 10, 90);
-      const dataUrl = canvas.toDataURL("image/png");
-      setImageDataUrl(dataUrl);
-      onSubmit(formData, dataUrl); // Call the onSubmit callback with form data and image data URL
+          // Display the image in the <div> with the id "picture"
+          const pictureDiv = document.getElementById("picture");
+          if (pictureDiv) {
+            // Clear previous content in the pictureDiv
+            pictureDiv.innerHTML = "";
+            // Create an img element
+            const img = document.createElement("img");
+            // Set the src attribute to the blob URL
+            img.src = dataURL;
+            // Append the img element to the pictureDiv
+            pictureDiv.appendChild(img);
+          }
+          
+          onSubmit(formData, dataURL);
+        });
+    } else {
+      console.error("No avatar image URL provided.");
     }
-  };
+};
+
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Card
-            sx={{ width: "100%", maxWidth: 400, height: 300, padding: "2em" }}
-          >
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <form onSubmit={handleSubmit}>
+          <Card sx={{ width: "100%", maxWidth: "100%", height: 500, padding: "2em" }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -100,9 +109,16 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
               </Grid>
             </Grid>
           </Card>
-        </Grid>
+        </form>
       </Grid>
-    </form>
+      <Grid item xs={12} md={6}>
+        <Card sx={{ width: "100%", maxWidth: "100%", padding: "2em" }}>
+          <div id="picture">
+            {/* {imageDataUrl && <img src={imageDataUrl} alt="Avatar" />} */}
+          </div>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 
