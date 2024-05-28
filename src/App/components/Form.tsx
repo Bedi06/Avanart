@@ -4,6 +4,8 @@ import { TextField, Button, Grid, Card } from "@mui/material";
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
   avatarImageDataUrl: string | null;
+  setSelectedRegion: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedRole: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface FormData {
@@ -12,7 +14,12 @@ interface FormData {
   role: string;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
+const Form: React.FC<FormProps> = ({
+  onSubmit,
+  avatarImageDataUrl,
+  setSelectedRegion,
+  setSelectedRole,
+}) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     region: "",
@@ -27,13 +34,12 @@ const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("clicked")
-    console.log(avatarImageDataUrl)
+    console.log("clicked");
+    console.log(avatarImageDataUrl);
     if (avatarImageDataUrl) {
-      
       fetch(avatarImageDataUrl)
-        .then(response => response.blob())
-        .then(blob => {
+        .then((response) => response.blob())
+        .then((blob) => {
           const dataURL = URL.createObjectURL(blob);
           setImageDataUrl(dataURL);
 
@@ -49,20 +55,26 @@ const Form: React.FC<FormProps> = ({ onSubmit, avatarImageDataUrl }) => {
             // Append the img element to the pictureDiv
             pictureDiv.appendChild(img);
           }
-          
+
           onSubmit(formData, dataURL);
         });
     } else {
       console.error("No avatar image URL provided.");
     }
-};
-
+  };
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
         <form onSubmit={handleSubmit}>
-          <Card sx={{ width: "100%", maxWidth: "100%", height: 500, padding: "2em" }}>
+          <Card
+            sx={{
+              width: "100%",
+              maxWidth: "100%",
+              height: 500,
+              padding: "2em",
+            }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField

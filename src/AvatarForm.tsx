@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Grid } from "@mui/material";
-import ImageGenerator from "./components/ImageGenerator";
-import Header from "./components/Header";
-import Form from "./components/Form";
-import Footer from "./components/Footer";
+import ImageGenerator from "./App/components/ImageGenerator";
+import Header from "./App/components/Header";
+import Form from "./App/components/Form";
+import Footer from "./App/components/Footer";
 
 const App: React.FC = () => {
   const [formData, setFormData] = useState<any>(null);
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const [selectedRegion, setSelectedRegion] = useState<string>("")
-  const [generatedImageDataUrl, setGeneratedImageDataUrl] = useState
-  <
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [generatedImageDataUrl, setGeneratedImageDataUrl] = useState<
     string | null
   >(null);
 
@@ -25,11 +24,20 @@ const App: React.FC = () => {
       <div style={{ padding: "20px" }}>
         <Grid container spacing={2} sx={{ m: "2em" }}>
           <Grid item xs={6}>
-            <Form onSubmit={handleSubmit} setSelectedRegion={setSelectedRegion} setSelectedRole={setSelectedRole} />
+            <Form
+              onSubmit={handleSubmit}
+              setSelectedRegion={setSelectedRegion}
+              setSelectedRole={setSelectedRole}
+              avatarImageDataUrl={generatedImageDataUrl}
+            />
           </Grid>
           <Grid item xs={6}>
             {generatedImageDataUrl && (
-              <ImageGenerator generatedImageDataUrl={generatedImageDataUrl} selectedRegion={selectedRegion} selectedRole={selectedRole}/>
+              <ImageGenerator
+                generatedImageDataUrl={generatedImageDataUrl}
+                selectedRegion={selectedRegion}
+                selectedRole={selectedRole}
+              />
             )}
           </Grid>
         </Grid>

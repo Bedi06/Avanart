@@ -2,11 +2,15 @@ import React from "react";
 import { Button, Card, CardActions, CardContent } from "@mui/material";
 
 interface ImageGeneratorProps {
-  generatedImageDataUrl: string | null; // Change prop name to generatedImageDataUrl
+  generatedImageDataUrl: string;
+  selectedRegion: string;
+  selectedRole: string;
 }
 
 const ImageGenerator: React.FC<ImageGeneratorProps> = ({
   generatedImageDataUrl,
+  selectedRegion,
+  selectedRole,
 }) => {
   // Use generatedImageDataUrl prop
   const handleDownload = () => {
@@ -25,10 +29,21 @@ const ImageGenerator: React.FC<ImageGeneratorProps> = ({
           <>
             <img
               src={generatedImageDataUrl}
-              alt="Generated"
+              alt={`${selectedRole} in ${selectedRegion}`}
               style={{ maxWidth: "100%", height: "auto", marginBottom: "8px" }}
             />
-            <p style={{ position: "absolute", bottom: "5px", left: "70px", zIndex: 1, color: "black", padding: "5px" }}>{selectedRegion}</p>
+            <p
+              style={{
+                position: "absolute",
+                bottom: "5px",
+                left: "70px",
+                zIndex: 1,
+                color: "black",
+                padding: "5px",
+              }}
+            >
+              {selectedRegion}
+            </p>
             <CardActions>
               <Button onClick={handleDownload}>Download Image</Button>
             </CardActions>
