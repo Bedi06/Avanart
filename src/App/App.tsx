@@ -49,23 +49,6 @@ class App extends Component<{}, AppState> {
     this.setState({ shape });
   }
 
-  // async download() {
-
-  //   const scale = 2;
-  //   const node = document.getElementById(this.state.avatarId);
-  //   if (node) {
-  //     const blob = await domtoimage.toBlob(node, {
-  //       height: node.offsetHeight * scale,
-  //       style: {
-  //         transform: `scale(${scale}) translate(${node.offsetWidth / 2 / scale}px, ${node.offsetHeight / 2 / scale}px)`,
-  //         "border-radius": 0,
-  //       },
-  //       width: node.offsetWidth * scale,
-  //     });
-  //     console.log(blob)
-  //     saveAs(blob, "avatar.png");
-  //   }
-  // }
   async download() {
     const scale = 2;
     const node = document.getElementById(this.state.avatarId);
@@ -129,7 +112,7 @@ class App extends Component<{}, AppState> {
     const { config, shape, avatarImageDataUrl } = this.state;
     return (
       <div className="App flex flex-col min-h-screen overflow-x-hidden">
-        <Header title="Avatar Generator" />
+        <Header title="AVANART" />
         <main className="flex-1 flex flex-col items-center justify-center">
           <Routes>
             <Route
