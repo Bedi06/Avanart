@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { TextField, Button, Grid, Card } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  Card,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  SelectChangeEvent,
+} from "@mui/material";
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
@@ -27,10 +37,13 @@ const Form: React.FC<FormProps> = ({
   });
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  console.log(formData)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,37 +90,38 @@ const Form: React.FC<FormProps> = ({
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
-                  sx={{ m: 1, width: "25ch" }}
-                  id="name"
-                  name="name"
-                  label="Name"
-                  variant="outlined"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
+                <FormControl sx={{ m: 1, width: "25ch" }}>
+                  <InputLabel id="region-label">Region</InputLabel>
+                  <Select
+                    labelId="region-label"
+                    id="region"
+                    name="region"
+                    value={formData.region}
+                    onChange={handleChange}
+                    label="Region"
+                  >
+                    <MenuItem value="london">London</MenuItem>
+                    <MenuItem value="birmingham">Birmingham</MenuItem>
+                    <MenuItem value="glasgow">Glasgow</MenuItem>
+                    <MenuItem value="manchester">Manchester</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  sx={{ m: 1, width: "25ch" }}
-                  id="region"
-                  name="region"
-                  label="Region"
-                  variant="outlined"
-                  value={formData.region}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  sx={{ m: 1, width: "25ch" }}
-                  id="role"
-                  name="role"
-                  label="Role"
-                  variant="outlined"
-                  value={formData.role}
-                  onChange={handleChange}
-                />
+                <FormControl sx={{ m: 1, width: "25ch" }}>
+                  <InputLabel id="role-label">Role</InputLabel>
+                  <Select
+                    labelId="role-label"
+                    id="role"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    label="Role"
+                  >
+                    <MenuItem value="volunteer">Volunteer</MenuItem>
+                    <MenuItem value="trainee">Trainee</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <Button
