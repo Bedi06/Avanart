@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -37,6 +37,44 @@ const Form: React.FC<FormProps> = ({
   });
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
+  
+  const pictureByClickingArrow = () => {
+    
+    
+    console.log(avatarImageDataUrl);
+    if (avatarImageDataUrl) {
+      fetch(avatarImageDataUrl)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const dataURL = URL.createObjectURL(blob);
+          setImageDataUrl(dataURL);
+
+          // Display the image in the <div> with the id "picture"
+          const pictureDiv = document.getElementById("picture");
+          if (pictureDiv) {
+            // Clear previous content in the pictureDiv
+            pictureDiv.innerHTML = "";
+            // Create an img element
+            const img = document.createElement("img");
+            // Set the src attribute to the blob URL
+            img.src = dataURL;
+            // Append the img element to the pictureDiv
+            pictureDiv.appendChild(img);
+          }
+
+          onSubmit(formData, dataURL);
+        });
+    } else {
+      console.error("No avatar image URL provided.");
+    }
+  };
+
+  useEffect(() => {
+    pictureByClickingArrow();
+  }, []);
+
+
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
   ) => {
@@ -47,7 +85,7 @@ const Form: React.FC<FormProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("clicked");
+    
     console.log(avatarImageDataUrl);
     if (avatarImageDataUrl) {
       fetch(avatarImageDataUrl)
