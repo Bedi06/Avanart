@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  TextField,
   Button,
   Grid,
   Card,
@@ -37,31 +36,21 @@ const Form: React.FC<FormProps> = ({
   });
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
 
-  
   const pictureByClickingArrow = () => {
-    
-    
-    console.log(avatarImageDataUrl);
     if (avatarImageDataUrl) {
       fetch(avatarImageDataUrl)
         .then((response) => response.blob())
         .then((blob) => {
           const dataURL = URL.createObjectURL(blob);
           setImageDataUrl(dataURL);
-
-          // Display the image in the <div> with the id "picture"
           const pictureDiv = document.getElementById("picture");
           if (pictureDiv) {
-            // Clear previous content in the pictureDiv
             pictureDiv.innerHTML = "";
-            // Create an img element
             const img = document.createElement("img");
-            // Set the src attribute to the blob URL
             img.src = dataURL;
-            // Append the img element to the pictureDiv
+            img.style.position = "relative";
             pictureDiv.appendChild(img);
           }
-
           onSubmit(formData, dataURL);
         });
     } else {
@@ -71,9 +60,7 @@ const Form: React.FC<FormProps> = ({
 
   useEffect(() => {
     pictureByClickingArrow();
-  }, []);
-
-
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>
@@ -81,12 +68,9 @@ const Form: React.FC<FormProps> = ({
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  console.log(formData)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    console.log(avatarImageDataUrl);
     if (avatarImageDataUrl) {
       fetch(avatarImageDataUrl)
         .then((response) => response.blob())
@@ -94,17 +78,38 @@ const Form: React.FC<FormProps> = ({
           const dataURL = URL.createObjectURL(blob);
           setImageDataUrl(dataURL);
 
-          // Display the image in the <div> with the id "picture"
           const pictureDiv = document.getElementById("picture");
           if (pictureDiv) {
-            // Clear previous content in the pictureDiv
             pictureDiv.innerHTML = "";
-            // Create an img element
+
+            // Role
+            const roleP = document.createElement("p");
+            roleP.innerText = formData.role;
+            roleP.style.position = "absolute";
+            roleP.style.top = "1px";
+            roleP.style.left = "100px";
+            roleP.style.right = "100px";
+            roleP.style.color = "black";
+            roleP.style.backgroundColor = "transparent";
+
+            // Region
+            const regionP = document.createElement("p");
+            regionP.innerText = formData.region;
+            regionP.style.position = "absolute";
+            regionP.style.bottom = "1px";
+            regionP.style.left = "100px";
+            regionP.style.right = "100px";
+            regionP.style.color = "black";
+            regionP.style.backgroundColor = "transparent";
+
             const img = document.createElement("img");
-            // Set the src attribute to the blob URL
             img.src = dataURL;
-            // Append the img element to the pictureDiv
+            img.style.position = "relative";
+
+            pictureDiv.style.position = "relative";
             pictureDiv.appendChild(img);
+            pictureDiv.appendChild(roleP);
+            pictureDiv.appendChild(regionP);
           }
 
           onSubmit(formData, dataURL);
@@ -177,7 +182,7 @@ const Form: React.FC<FormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <Card sx={{ width: "100%", maxWidth: "100%", padding: "2em" }}>
-          <div id="picture">
+          <div id="picture" style={{ position: "relative" }}>
             {/* {imageDataUrl && <img src={imageDataUrl} alt="Avatar" />} */}
           </div>
         </Card>
