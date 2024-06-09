@@ -1,34 +1,35 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Link as MuiLink,
-} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   title: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
+  const navigate = useNavigate();
+
+  const handleHeaderClick = () => {
+    navigate("/");
+  };
+
   return (
-    <AppBar
-      position="static"
-      sx={{ backgroundColor: "Black", color: "#bfbcb8" }}
-    >
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          {title}
-        </Typography>
-        <Button color="inherit" component={MuiLink} href="/about-us">
+    <header className="bg-black text-white py-4 px-6 flex justify-between items-center">
+      <Link
+        to="/"
+        className="text-lg font-semibold"
+        onClick={handleHeaderClick}
+      >
+        {title}
+      </Link>
+      <nav>
+        <Link to="/about-us" className="mx-4 hover:underline">
           About Us
-        </Button>
-        <Button color="inherit" component={MuiLink} href="/contact">
+        </Link>
+        <Link to="/contact" className="hover:underline">
           Contact
-        </Button>
-      </Toolbar>
-    </AppBar>
+        </Link>
+      </nav>
+    </header>
   );
 };
 
