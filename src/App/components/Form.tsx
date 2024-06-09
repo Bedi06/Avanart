@@ -1,3 +1,4 @@
+import ReactCurvedText from 'react-curved-text';
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   FormControl,
   SelectChangeEvent,
 } from "@mui/material";
+import ReactDOM from 'react-dom';
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
@@ -77,47 +79,94 @@ const Form: React.FC<FormProps> = ({
         .then((blob) => {
           const dataURL = URL.createObjectURL(blob);
           setImageDataUrl(dataURL);
-
+  
           const pictureDiv = document.getElementById("picture");
           if (pictureDiv) {
             pictureDiv.innerHTML = "";
-
+  
             // Role
             const roleP = document.createElement("p");
             roleP.innerText = formData.role;
             roleP.style.position = "absolute";
             roleP.style.top = "1px";
-            roleP.style.left = "100px";
-            roleP.style.right = "100px";
+            roleP.style.left = "0px";
+            roleP.style.right = "0px";
             roleP.style.color = "black";
             roleP.style.backgroundColor = "transparent";
-
-            // Region
-            const regionP = document.createElement("p");
-            regionP.innerText = formData.region;
-            regionP.style.position = "absolute";
-            regionP.style.bottom = "1px";
-            regionP.style.left = "100px";
-            regionP.style.right = "100px";
-            regionP.style.color = "black";
-            regionP.style.backgroundColor = "transparent";
-
+  
+            // Image
             const img = document.createElement("img");
             img.src = dataURL;
             img.style.position = "relative";
-
+            img.style.border = "40px solid red";
+            img.style.borderRadius = "160px";
+            img.style.width = "256px";
+            img.style.height = "256px";
+  
+            // Create a wrapper div for ReactCurvedText
+            const curvedTextDiv = document.createElement("div");
+            curvedTextDiv.id = "curvedTextDiv";
+            curvedTextDiv.style.position = "absolute";
+            curvedTextDiv.style.top = "0";
+            curvedTextDiv.style.left = "0";
+            curvedTextDiv.style.width = "100%";
+            curvedTextDiv.style.height = "100%";
+            curvedTextDiv.style.pointerEvents = "none"; 
+  
             pictureDiv.style.position = "relative";
+            pictureDiv.style.width = "256px"; // 
+            pictureDiv.style.height = "256px"; 
+  
             pictureDiv.appendChild(img);
             pictureDiv.appendChild(roleP);
-            pictureDiv.appendChild(regionP);
-          }
+            pictureDiv.appendChild(curvedTextDiv);
+  
+            // Render the ReactCurvedText component into the wrapper div
+            ReactDOM.render(
+              <ReactCurvedText
+                width={256}
+                height={256}
+                cx={125}
+                cy={130}
+                rx={105}
+                ry={109}
+                startOffset={130} 
+                reversed={false}
+                text={formData.region}
+                textProps={{ style: { fontSize: 25, fill: 'black' } }}
+                tspanProps={{ dy: '0.3em' }}
+                svgProps={{rotate:10}}
+              />,
+              curvedTextDiv
+            );
 
+            //
+            ReactDOM.render(
+              <ReactCurvedText
+                width={256}
+                height={256}
+                cx={125}
+                cy={130}
+                rx={105}
+                ry={109}
+                startOffset={130} 
+                reversed={true}
+                text={formData.role}
+                textProps={{ style: { fontSize: 25, fill: 'black' } }}
+                tspanProps={{ dy: '0.3em' }}
+                svgProps={{rotate:13}}
+              />,
+              roleP
+            );
+          }
+  
           onSubmit(formData, dataURL);
         });
     } else {
       console.error("No avatar image URL provided.");
     }
   };
+  
 
   return (
     <Grid container spacing={2}>
@@ -183,7 +232,6 @@ const Form: React.FC<FormProps> = ({
       <Grid item xs={12} md={6}>
         <Card sx={{ width: "100%", maxWidth: "100%", padding: "2em" }}>
           <div id="picture" style={{ position: "relative" }}>
-            {/* {imageDataUrl && <img src={imageDataUrl} alt="Avatar" />} */}
           </div>
         </Card>
       </Grid>
