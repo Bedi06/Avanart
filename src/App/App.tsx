@@ -53,7 +53,7 @@ class App extends Component<{}, AppState> {
   async download() {
     const scale = 2;
     const node = document.getElementById(this.state.avatarId);
-
+console.log(this.state.avatarId)
     if (!node) {
       console.error(
         "Element with ID",

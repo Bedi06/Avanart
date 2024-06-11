@@ -1,5 +1,6 @@
-import ReactCurvedText from 'react-curved-text';
 import React, { useState, useEffect } from "react";
+import ReactDOM from 'react-dom';
+import ReactCurvedText from 'react-curved-text';
 import {
   Button,
   Grid,
@@ -10,7 +11,8 @@ import {
   FormControl,
   SelectChangeEvent,
 } from "@mui/material";
-import ReactDOM from 'react-dom';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 
 interface FormProps {
   onSubmit: (formData: FormData, imageDataUrl: string) => void;
@@ -79,11 +81,11 @@ const Form: React.FC<FormProps> = ({
         .then((blob) => {
           const dataURL = URL.createObjectURL(blob);
           setImageDataUrl(dataURL);
-  
+
           const pictureDiv = document.getElementById("picture");
           if (pictureDiv) {
             pictureDiv.innerHTML = "";
-  
+
             // Role
             const roleP = document.createElement("p");
             roleP.innerText = formData.role;
@@ -93,7 +95,7 @@ const Form: React.FC<FormProps> = ({
             roleP.style.right = "0px";
             roleP.style.color = "black";
             roleP.style.backgroundColor = "transparent";
-  
+
             // Image
             const img = document.createElement("img");
             img.src = dataURL;
@@ -102,7 +104,7 @@ const Form: React.FC<FormProps> = ({
             img.style.borderRadius = "160px";
             img.style.width = "256px";
             img.style.height = "256px";
-  
+
             // Create a wrapper div for ReactCurvedText
             const curvedTextDiv = document.createElement("div");
             curvedTextDiv.id = "curvedTextDiv";
@@ -112,15 +114,15 @@ const Form: React.FC<FormProps> = ({
             curvedTextDiv.style.width = "100%";
             curvedTextDiv.style.height = "100%";
             curvedTextDiv.style.pointerEvents = "none"; 
-  
+
             pictureDiv.style.position = "relative";
-            pictureDiv.style.width = "256px"; // 
+            pictureDiv.style.width = "256px"; 
             pictureDiv.style.height = "256px"; 
-  
+
             pictureDiv.appendChild(img);
             pictureDiv.appendChild(roleP);
             pictureDiv.appendChild(curvedTextDiv);
-  
+
             // Render the ReactCurvedText component into the wrapper div
             ReactDOM.render(
               <ReactCurvedText
@@ -159,14 +161,28 @@ const Form: React.FC<FormProps> = ({
               roleP
             );
           }
-  
+
           onSubmit(formData, dataURL);
         });
     } else {
       console.error("No avatar image URL provided.");
     }
   };
-  
+
+  const handleDownload = () => {
+    const pictureDiv = document.getElementById("picture");
+    if (pictureDiv) {
+      domtoimage.toBlob(pictureDiv)
+        .then((blob) => {
+          saveAs(blob, "avatar.png");
+        })
+        .catch((error) => {
+          console.error("Error generating image blob:", error);
+        });
+    } else {
+      console.error("No picture div found for downloading.");
+    }
+  };
 
   return (
     <Grid container spacing={2}>
@@ -231,8 +247,10 @@ const Form: React.FC<FormProps> = ({
       </Grid>
       <Grid item xs={12} md={6}>
         <Card sx={{ width: "100%", maxWidth: "100%", padding: "2em" }}>
-          <div id="picture" style={{ position: "relative" }}>
-          </div>
+          <div id="picture" style={{ position: "relative" }}></div>
+          <Button onClick={handleDownload} variant="contained" sx={{ mt: 10, backgroundColor: "primary", color: "white" }}>
+            Download
+          </Button>
         </Card>
       </Grid>
     </Grid>
