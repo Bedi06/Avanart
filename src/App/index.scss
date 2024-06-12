@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 .App {
   min-height: 100vh;
@@ -10,4 +10,20 @@
 
 .inputField {
   background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(30px);
+  }
+}
+
+.animate-right {
+  animation: moveRight 2s infinite;
 }
